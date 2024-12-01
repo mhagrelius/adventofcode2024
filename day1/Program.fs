@@ -22,12 +22,23 @@ let calcDistances arrays =
     |> Array.map2 (fun x y -> abs (x - y)) secondSortedArray
     |> Array.sum
     
+let occurrences value array =
+    array
+    |> Array.where (fun x -> x = value)
+    |> Array.length
+    
+let calcSimilarities arrays =
+    let (firstSortedArray, secondSortedArray) = arrays
+    firstSortedArray
+    |> Array.sumBy (fun x -> x * (occurrences x secondSortedArray))
+                  
+    
 let data = 
     fileContent 
     |> Array.map parseLine
     |> Array.unzip
     |> sortArrays
-    |> calcDistances
+    |> calcSimilarities
     |> printfn "%d"
 
 
