@@ -29,11 +29,11 @@ let isSafe levels =
 // Part 2 - remove one element from the array and check if it's still safe
 // (unoptimized)
 let canRemoveOneToMakeSafe (levels: int array) =
-    let mutable aPermutationIsSafe = false
-    for i in 0 .. levels.Length - 1 do
+    let checkPermutation i _ =
         let newLevels = Array.removeAt i levels
-        if isSafe newLevels then aPermutationIsSafe <- true
-    aPermutationIsSafe
+        isSafe newLevels
+    Array.mapi checkPermutation levels
+    |> Array.contains true
 
 
 let fileContents = System.IO.File.ReadAllText "input.txt"
