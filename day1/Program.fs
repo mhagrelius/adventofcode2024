@@ -28,7 +28,7 @@ let data =
     |> Array.map parseLine
     |> Array.unzip
     |> sortArrays
-    |> calcSimilarities
+    |> calcSimilarities // Swap in calcDistances if solving part 1
     |> printfn "%d"
 
 
