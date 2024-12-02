@@ -26,7 +26,7 @@ let isSafe levels =
     else
         false
 
-// Part 2 - remove one element from the array and check if it's still safe
+// Part 2 - remove one element from the array and check if it's now safe
 let canRemoveOneToMakeSafe (levels: int array) =
     let checkPermutation i _ =
         let newLevels = Array.removeAt i levels
