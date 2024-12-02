@@ -3,7 +3,7 @@
 let filePath = "input.txt"
 let fileContent = File.ReadAllLines(filePath)
 
-let parseLine (line: string)=
+let parseLine (line: string) =
     let parts = line.Split(' ') |> Array.filter (fun s -> s <> "")
     let firstValue = parts[0].Trim() |> int
     let secondValue = parts[1].Trim() |> int
@@ -28,8 +28,7 @@ let calcSimilarities (firstSortedArray, secondSortedArray) =
 let sortThenCalcDistances = sortArrays >> calcDistances                  
 let sortThenCalcSimilarities = sortArrays >> calcSimilarities 
 
-let data = 
-    fileContent 
+fileContent 
     |> Array.map parseLine
     |> Array.unzip
     |> sortThenCalcSimilarities // Swap in sortThenCalcDistances if solving part 1
