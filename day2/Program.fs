@@ -27,7 +27,6 @@ let isSafe levels =
         false
 
 // Part 2 - remove one element from the array and check if it's still safe
-// (unoptimized)
 let canRemoveOneToMakeSafe (levels: int array) =
     let checkPermutation i _ =
         let newLevels = Array.removeAt i levels
@@ -43,5 +42,3 @@ fileContents.Split('\n', System.StringSplitOptions.RemoveEmptyEntries)
     |> Array.filter (fun levels -> isSafe levels || canRemoveOneToMakeSafe levels)
     |> Array.length
     |> printfn "%d"
-
-//line.Split(' ') |> Array.filter (fun s -> s <> "")
