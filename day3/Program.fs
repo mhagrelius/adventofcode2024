@@ -11,7 +11,7 @@ let determineMode (m: Match) currentMode =
     | "don't()" -> Skip
     | _ -> currentMode
 
-let Calc (mode, sum) (m:Match) =
+let Calc (mode, sum) m =
     match determineMode m mode with
     | Process -> if m.Value.StartsWith "mul" 
                     then Process, sum + int m.Groups[2].Value * int m.Groups[3].Value 
