@@ -22,7 +22,6 @@ let matches = regex.Matches input
 
 let result =
     matches
-    |> Seq.cast<Match>
     |> Seq.fold ProcessMatch (Process, 0)
     |> snd
     |> printfn "%d"
