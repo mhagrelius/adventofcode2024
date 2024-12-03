@@ -1,9 +1,28 @@
 ﻿open System.Text.RegularExpressions
-
-let regex = new Regex @"mul\((\d+),(\d+)\)"
+type Mode =
+    | Process
+    | Skip
+let regex = Regex @"(mul\((\d+),(\d+)\))|(do\(\))|(don't\(\))"
 let input = System.IO.File.ReadAllText "input.txt"
 
-regex.Matches input 
+let determineMode (m: Match) currentMode =
+    match m.Value with
+    | "do()" -> Process
+    | "don't()" -> Skip
+    | _ -> currentMode
+
+let Calc (mode, sum) (m:Match) =
+    match determineMode m mode with
+    | Process -> if m.Value.StartsWith "mul" 
+                    then Process, sum + int m.Groups[2].Value * int m.Groups[3].Value 
+                    else Process, sum
+    | cm -> cm, sum
+
+let matches = regex.Matches input
+
+let result =
+    matches
     |> Seq.cast<Match>
-    |> Seq.sumBy (fun m -> int m.Groups[1].Value * int m.Groups[2].Value)
+    |> Seq.fold Calc (Process, 0)
+    |> snd
     |> printfn "%d"
