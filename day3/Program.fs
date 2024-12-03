@@ -13,9 +13,7 @@ let determineMode (m: Match) currentMode =
 
 let Calc (mode, sum) m =
     match determineMode m mode with
-    | Process -> if m.Value.StartsWith "mul" 
-                    then Process, sum + int m.Groups[2].Value * int m.Groups[3].Value 
-                    else Process, sum
+    | Process when m.Value.StartsWith "mul" -> Process, sum + int m.Groups[2].Value * int m.Groups[3].Value 
     | cm -> cm, sum
 
 let matches = regex.Matches input
