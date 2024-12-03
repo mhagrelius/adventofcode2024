@@ -18,10 +18,7 @@ let ProcessMatch (currentMode, runningTotal) currentMatch =
     | Process when currentMatch.Value.StartsWith "mul" -> Process, runningTotal + int currentMatch.Groups[2].Value * int currentMatch.Groups[3].Value 
     | _ -> updatedMode, runningTotal
 
-let matches = regex.Matches input
-
-let result =
-    matches
+regex.Matches input
     |> Seq.fold ProcessMatch (Process, 0)
     |> snd
     |> printfn "%d"
