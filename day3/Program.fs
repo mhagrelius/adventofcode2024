@@ -2,25 +2,27 @@
 type Mode =
     | Process
     | Skip
+
 let regex = Regex @"(mul\((\d+),(\d+)\))|(do\(\))|(don't\(\))"
 let input = System.IO.File.ReadAllText "input.txt"
 
-let determineMode (m: Match) currentMode =
-    match m.Value with
+let determineMode (currentMatch: Match) currentMode =
+    match currentMatch.Value with
     | "do()" -> Process
     | "don't()" -> Skip
     | _ -> currentMode
 
-let Calc (mode, sum) m =
-    match determineMode m mode with
-    | Process when m.Value.StartsWith "mul" -> Process, sum + int m.Groups[2].Value * int m.Groups[3].Value 
-    | newMode -> newMode, sum
+let ProcessMatch (currentMode, runningTotal) currentMatch =
+    let updatedMode = determineMode currentMatch currentMode
+    match updatedMode with
+    | Process when currentMatch.Value.StartsWith "mul" -> Process, runningTotal + int currentMatch.Groups[2].Value * int currentMatch.Groups[3].Value 
+    | _ -> updatedMode, runningTotal
 
 let matches = regex.Matches input
 
 let result =
     matches
     |> Seq.cast<Match>
-    |> Seq.fold Calc (Process, 0)
+    |> Seq.fold ProcessMatch (Process, 0)
     |> snd
     |> printfn "%d"
